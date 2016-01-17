@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <script src='../socket.io.js'></script>
+        <script>
+            var socket = io();
+            socket.on('welcome', function(data) {
+                addMessage(data.message);
+
+                // Respond with a message including this clients' id sent from the server
+                socket.emit('i am client', {data: 'foo!', id: data.id});
+            });
+            socket.on('temp', function(data) {
+                addMessage(data.temp);
+            });
+            socket.on('error', console.error.bind(console));
+            socket.on('message', console.log.bind(console));
+
+            function addMessage(message) {
+                var text = document.createTextNode(message),
+                    el = document.createElement('li'),
+                    messages = document.getElementById('messages');
+
+                el.appendChild(text);
+                messages.appendChild(el);
+            }
+
+            
+        </script>
+            
+        <title>Gidmon Brewing Monitor</title>
+    </head>
+    <body>
+        <h1>Gidmon Brewing Monitor</h1>
+        
+        <ul id='messages'>
+            <li>Temp1: 68</li>
+            <li>Temp2: 68</li>
+            <li>Temp3: 68</li>
+        </ul>
+            
+    </body>
+    
+</html>
